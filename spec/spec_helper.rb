@@ -1,5 +1,5 @@
+puts 'requiring atlas'
 require 'atlas'
-
 require 'atlas/testing'
 require_relative 'shared_examples/nodes'
 

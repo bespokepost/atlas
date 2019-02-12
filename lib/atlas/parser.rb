@@ -16,8 +16,8 @@ module Atlas
     end
 
     def parse_tree_root
-      BoolNode.new.tap do |root_node|
-        @current_node = root_node
+      root_node.tap do |root|
+        @current_node = root
         @current_tokens = tokens.dup
         @group_stack = []
         parse_tokens
@@ -65,11 +65,6 @@ module Atlas
       end
     end
 
-    def node_from_token
-      case token
-      when Atlas::ValueToken then ValueNode.new(token.value)
-      when Atlas::ClosingListToken then ValuesNode.new
-      end
-    end
+    def node_from_token; end
   end
 end
