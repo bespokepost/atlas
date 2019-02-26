@@ -120,9 +120,11 @@ describe Atlas::Plain::Parser do
         end
       end
 
-      describe 'EXISTS' do
-        let(:tokens) { [Atlas::ValueToken.new('name'), Atlas::Lexer.word_tokens['EXISTS']] }
-        it { is_expected.to eq 'EXISTS(name)' }
+      %w(EXISTS NOTEXISTS).each do |function|
+        describe function do
+          let(:tokens) { [Atlas::ValueToken.new('name'), Atlas::Lexer.word_tokens[function]] }
+          it { is_expected.to eq "#{function}(name)" }
+        end
       end
     end
   end

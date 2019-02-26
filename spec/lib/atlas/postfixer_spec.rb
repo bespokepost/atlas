@@ -132,9 +132,11 @@ describe Atlas::Postfixer do
         end
       end
 
-      describe 'EXISTS' do
-        let(:tokens) { [Atlas::ValueToken.new('foo'), Atlas::Lexer.word_tokens['EXISTS']] }
-        it { is_expected.to match_atlas_tokens(Atlas::ValueToken.new('foo'), Atlas::Lexer.word_tokens['EXISTS']) }
+      %w(EXISTS NOTEXISTS).each do |operator|
+        describe operator do
+          let(:tokens) { [Atlas::ValueToken.new('foo'), Atlas::Lexer.word_tokens[operator]] }
+          it { is_expected.to match_atlas_tokens(Atlas::ValueToken.new('foo'), Atlas::Lexer.word_tokens[operator]) }
+        end
       end
     end
   end

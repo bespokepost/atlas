@@ -121,27 +121,35 @@ describe Atlas::Lexer do
           is_expected.to match_atlas_tokens(Atlas::ValueToken.new('shipping_address'), Atlas::ExistsToken)
         end
       end
+
+      describe 'NOTEXISTS' do
+        let(:input) { 'shipping_address NOTEXISTS' }
+
+        it do
+          is_expected.to match_atlas_tokens(Atlas::ValueToken.new('shipping_address'), Atlas::NotExistsToken)
+        end
+      end
     end
 
     context 'operator composition' do
       let(:input) do
-        %(sparkAssigned NOTEQ 2018-12-01 AND
-          toastReceived EQ true AND
+        %(today NOTEQ 2018-12-01 AND
+          some_flag EQ true AND
           (
             birthday EXISTS OR
             birthday LT 1998-01-01
           ) AND
-          country NOTEQ "CA" AND
+          region NOTEQ "CA" AND
           region NOTEQ "AZ")
       end
 
       it do
         is_expected.to match_atlas_tokens [
-          Atlas::ValueToken.new('sparkAssigned'),
+          Atlas::ValueToken.new('today'),
           Atlas::NotEqToken,
           Atlas::ValueToken.new('2018-12-01'),
           Atlas::AndToken,
-          Atlas::ValueToken.new('toastReceived'),
+          Atlas::ValueToken.new('some_flag'),
           Atlas::EqToken,
           Atlas::ValueToken.new('true'),
           Atlas::AndToken,
@@ -154,7 +162,7 @@ describe Atlas::Lexer do
           Atlas::ValueToken.new('1998-01-01'),
           Atlas::ClosingGroupToken,
           Atlas::AndToken,
-          Atlas::ValueToken.new('country'),
+          Atlas::ValueToken.new('region'),
           Atlas::NotEqToken,
           Atlas::ValueToken.new('CA'),
           Atlas::AndToken,
