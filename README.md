@@ -1,4 +1,4 @@
-# Atlas
+# Atlas [![CircleCI](https://circleci.com/gh/bespokepost/atlas.svg?style=svg)](https://circleci.com/gh/bespokepost/atlas)
 
 Tokenizer and parser for a custom query syntax.
 
