@@ -36,6 +36,7 @@ module Atlas
     ['GT', 'GreaterThanToken', ComparisonToken],
     ['GTE', 'GreaterThanOrEqualToToken', ComparisonToken],
     ['EXISTS', 'ExistsToken', ComparisonToken],
+    ['NOTEXISTS', 'NotExistsToken', ComparisonToken],
   ].map do |(character, class_name, superclass)|
     klass = Class.new(superclass) do
       const_set :VALUE, character.freeze
