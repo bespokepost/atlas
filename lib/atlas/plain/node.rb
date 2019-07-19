@@ -45,7 +45,7 @@ module Atlas
     {
       UnaryFunctionNode => %w(Exists),
       BinaryFunctionNode => %w(Eq NotEq Lt Lte Gt Gte),
-      NAryFunctionNode => %w(And Or Includes),
+      NAryFunctionNode => %w(And Or Includes Excludes),
     }.each do |klass, prefixes|
       prefixes.each do |prefix|
         class_def = Class.new(klass) do

@@ -110,6 +110,21 @@ describe Atlas::Plain::Parser do
         it { is_expected.to eq 'INCLUDES(color, [red, blue])' }
       end
 
+      describe 'IN' do
+        let(:tokens) do
+          [
+            Atlas::ValueToken.new('color'),
+            Atlas::Lexer.word_tokens['NOTIN'],
+            Atlas::Lexer.symbol_tokens['['],
+            Atlas::ValueToken.new('red'),
+            Atlas::ValueToken.new('blue'),
+            Atlas::Lexer.symbol_tokens[']'],
+          ]
+        end
+
+        it { is_expected.to eq 'EXCLUDES(color, [red, blue])' }
+      end
+
       %w(LT LTE GT GTE).each do |function|
         describe function do
           let(:tokens) do

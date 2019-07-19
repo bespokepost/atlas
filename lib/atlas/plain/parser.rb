@@ -19,8 +19,9 @@ module Atlas
         when Atlas::AndToken then AndNode.new
         when Atlas::OrToken then OrNode.new
         when Atlas::EqToken then EqNode.new
-        when Atlas::InToken then IncludesNode.new
         when Atlas::NotEqToken then NotEqNode.new
+        when Atlas::InToken then IncludesNode.new
+        when Atlas::NotInToken then ExcludesNode.new
         when Atlas::LessThanToken then LtNode.new
         when Atlas::LessThanOrEqualToToken then LteNode.new
         when Atlas::GreaterThanToken then GtNode.new

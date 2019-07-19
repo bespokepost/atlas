@@ -86,29 +86,31 @@ describe Atlas::Postfixer do
         end
       end
 
-      describe 'IN' do
-        let(:tokens) do
-          [
-            Atlas::ValueToken.new('name'),
-            Atlas::Lexer.word_tokens['IN'],
-            Atlas::Lexer.symbol_tokens['['],
-            Atlas::ValueToken.new('foo'),
-            Atlas::ValueToken.new('bar'),
-            Atlas::ValueToken.new('baz'),
-            Atlas::Lexer.symbol_tokens[']'],
-          ]
-        end
+      %w(IN NOTIN).each do |operator|
+        describe operator do
+          let(:tokens) do
+            [
+              Atlas::ValueToken.new('name'),
+              Atlas::Lexer.word_tokens[operator],
+              Atlas::Lexer.symbol_tokens['['],
+              Atlas::ValueToken.new('foo'),
+              Atlas::ValueToken.new('bar'),
+              Atlas::ValueToken.new('baz'),
+              Atlas::Lexer.symbol_tokens[']'],
+            ]
+          end
 
-        it do
-          is_expected.to match_atlas_tokens [
-            Atlas::ValueToken.new('name'),
-            Atlas::Lexer.symbol_tokens['['],
-            Atlas::ValueToken.new('foo'),
-            Atlas::ValueToken.new('bar'),
-            Atlas::ValueToken.new('baz'),
-            Atlas::Lexer.symbol_tokens[']'],
-            Atlas::Lexer.word_tokens['IN'],
-          ]
+          it do
+            is_expected.to match_atlas_tokens [
+              Atlas::ValueToken.new('name'),
+              Atlas::Lexer.symbol_tokens['['],
+              Atlas::ValueToken.new('foo'),
+              Atlas::ValueToken.new('bar'),
+              Atlas::ValueToken.new('baz'),
+              Atlas::Lexer.symbol_tokens[']'],
+              Atlas::Lexer.word_tokens[operator],
+            ]
+          end
         end
       end
 

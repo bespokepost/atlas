@@ -31,6 +31,7 @@ module Atlas
     ['EQ', 'EqToken', ComparisonToken],
     ['NOTEQ', 'NotEqToken', ComparisonToken],
     ['IN', 'InToken', ComparisonToken],
+    ['NOTIN', 'NotInToken', ComparisonToken],
     ['LT', 'LessThanToken', ComparisonToken],
     ['LTE', 'LessThanOrEqualToToken', ComparisonToken],
     ['GT', 'GreaterThanToken', ComparisonToken],
