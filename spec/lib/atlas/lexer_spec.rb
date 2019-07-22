@@ -36,37 +36,38 @@ describe Atlas::Lexer do
     end
 
     context 'comparison' do
-      describe 'EQ' do
-        let(:input) { 'foo EQ "bar"' }
+      [
+        ['EQ', Atlas::EqToken],
+        ['NOTEQ', Atlas::NotEqToken],
+      ].each do |(operator, expected_token)|
+        describe operator do
+          let(:input) { %(foo #{operator} "bar") }
 
-        it do
-          is_expected.
-            to match_atlas_tokens(Atlas::ValueToken.new('foo'), Atlas::EqToken, Atlas::ValueToken.new('bar'))
+          it do
+            is_expected.
+              to match_atlas_tokens(Atlas::ValueToken.new('foo'), expected_token, Atlas::ValueToken.new('bar'))
+          end
         end
       end
 
-      describe 'NOTEQ' do
-        let(:input) { 'foo NOTEQ "bar"' }
+      [
+        ['IN', Atlas::InToken],
+        ['NOTIN', Atlas::NotInToken],
+      ].each do |(operator, expected_token)|
+        describe operator do
+          let(:input) { %(foo #{operator} [bar, "baz"]) }
 
-        it do
-          is_expected.
-            to match_atlas_tokens(Atlas::ValueToken.new('foo'), Atlas::NotEqToken, Atlas::ValueToken.new('bar'))
-        end
-      end
-
-      describe 'IN' do
-        let(:input) { 'foo IN [bar, "baz"]' }
-
-        it do
-          is_expected.
-            to match_atlas_tokens [
-              Atlas::ValueToken.new('foo'),
-              Atlas::InToken,
-              Atlas::OpeningListToken,
-              Atlas::ValueToken.new('bar'),
-              Atlas::ValueToken.new('baz'),
-              Atlas::ClosingListToken,
-            ]
+          it do
+            is_expected.
+              to match_atlas_tokens [
+                Atlas::ValueToken.new('foo'),
+                expected_token,
+                Atlas::OpeningListToken,
+                Atlas::ValueToken.new('bar'),
+                Atlas::ValueToken.new('baz'),
+                Atlas::ClosingListToken,
+              ]
+          end
         end
       end
 
