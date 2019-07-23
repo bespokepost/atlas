@@ -18,8 +18,9 @@ module Atlas
 
     attr_reader :children
 
-    def initialize(children = [])
-      @children = NodeChildren.new(children)
+    def initialize(initial_children = [])
+      @children = NodeChildren.new()
+      initial_children.each { |child| append(child) }
     end
 
     def limit
@@ -28,10 +29,9 @@ module Atlas
 
     def <<(child)
       if limit_reached?
-        raise ArityLimitError("Number of children limit reached (#{limit})")
+        raise ArityLimitError, "Number of children limit reached (#{limit})"
       else
-        child.parent = self
-        children << child
+        append(child)
       end
 
       self
@@ -39,6 +39,13 @@ module Atlas
 
     def limit_reached?
       children.length >= limit
+    end
+
+    private
+
+    def append(child)
+      child.parent = self
+      children << child
     end
   end
 

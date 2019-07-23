@@ -5,8 +5,8 @@ module Atlas
 
     delegate :<<, :length, to: :elements
 
-    def initialize(elements = [])
-      @elements = elements
+    def initialize
+      @elements = []
     end
 
     def each(&blk)

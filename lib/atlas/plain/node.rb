@@ -42,10 +42,15 @@ module Atlas
       end
     end
 
+    class WrapperNode < UnaryFunctionNode
+      delegate :limit, :<<, :limit_reached?, to: :child
+    end
+
     {
+      WrapperNode => %w(Not),
       UnaryFunctionNode => %w(Exists),
-      BinaryFunctionNode => %w(Eq NotEq Lt Lte Gt Gte),
-      NAryFunctionNode => %w(And Or Includes Excludes),
+      BinaryFunctionNode => %w(Eq Lt Lte Gt Gte Includes),
+      NAryFunctionNode => %w(And Or),
     }.each do |klass, prefixes|
       prefixes.each do |prefix|
         class_def = Class.new(klass) do

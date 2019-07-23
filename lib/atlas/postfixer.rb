@@ -37,9 +37,15 @@ module Atlas
       when Atlas::ClosingGroupToken
         pop_grouped_operators
         push_to_values
-      when Atlas::ComparisonToken, Atlas::LogicalToken
+      when Atlas::ComparisonToken
         pop_precedent_operators
         push_to_operators
+      when Atlas::LogicalToken
+        pop_precedent_operators
+
+        # if there are multiple of the same logical operator, ignore new ones:
+        # "c1 AND c2 AND c3" should become "AND c1 c2 c3" instead of "AND AND c1 c2 c3"
+        push_to_operators unless token == top_operator
       when Atlas::ValueToken, Atlas::ListToken
         push_to_values
       end
