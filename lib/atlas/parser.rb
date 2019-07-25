@@ -69,7 +69,7 @@ module Atlas
           @current_node = current_node.parent
 
           # If the parent is also full, keep going up the ancestry
-          break unless @current_node.limit_reached?
+          break if !current_node || !current_node.limit_reached?
         end
       end
     end

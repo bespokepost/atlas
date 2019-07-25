@@ -19,7 +19,7 @@ module Atlas
     attr_reader :children
 
     def initialize(initial_children = [])
-      @children = NodeChildren.new()
+      @children = NodeChildren.new
       initial_children.each { |child| append(child) }
     end
 
