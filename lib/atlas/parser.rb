@@ -46,7 +46,7 @@ module Atlas
       when Atlas::OpeningGroupToken
         @current_node = group_stack.pop
       when Atlas::OpeningListToken
-        @current_node = current_node.parent
+        set_current_node_to_ancestor
       else
         process_child_node
       end
@@ -58,9 +58,18 @@ module Atlas
         current_node << node
 
         if current_node.limit_reached?
-          @current_node = current_node.parent
+          set_current_node_to_ancestor
         elsif !node.limit_reached?
           @current_node = node
+        end
+      end
+
+      def set_current_node_to_ancestor
+        loop do
+          @current_node = current_node.parent
+
+          # If the parent is also full, keep going up the ancestry
+          break if !current_node || !current_node.limit_reached?
         end
       end
     end

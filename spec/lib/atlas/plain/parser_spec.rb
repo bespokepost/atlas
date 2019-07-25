@@ -56,15 +56,29 @@ describe Atlas::Plain::Parser do
             Atlas::ValueToken.new('bar'),
             Atlas::Lexer.word_tokens['EQ'],
             Atlas::ValueToken.new('baz'),
+            Atlas::Lexer.word_tokens['AND'],
+            Atlas::ValueToken.new('qux'),
+            Atlas::Lexer.word_tokens['NOTIN'],
+            Atlas::Lexer.symbol_tokens['['],
+            Atlas::ValueToken.new('quux'),
+            Atlas::ValueToken.new('quuz'),
+            Atlas::Lexer.symbol_tokens[']'],
           ]
         end
 
-        it { is_expected.to eq 'AND(EXISTS(foo), EQ(bar, baz))' }
+        it { is_expected.to eq 'AND(EXISTS(foo), EQ(bar, baz), NOT(INCLUDES(qux, [quux, quuz])))' }
       end
 
       describe 'OR expression' do
         let(:tokens) do
           [
+            Atlas::ValueToken.new('qux'),
+            Atlas::Lexer.word_tokens['NOTIN'],
+            Atlas::Lexer.symbol_tokens['['],
+            Atlas::ValueToken.new('quux'),
+            Atlas::ValueToken.new('quuz'),
+            Atlas::Lexer.symbol_tokens[']'],
+            Atlas::Lexer.word_tokens['OR'],
             Atlas::ValueToken.new('foo'),
             Atlas::Lexer.word_tokens['EQ'],
             Atlas::ValueToken.new('bar'),
@@ -74,7 +88,7 @@ describe Atlas::Plain::Parser do
           ]
         end
 
-        it { is_expected.to eq 'OR(EQ(foo, bar), EXISTS(baz))' }
+        it { is_expected.to eq 'OR(NOT(INCLUDES(qux, [quux, quuz])), EQ(foo, bar), EXISTS(baz))' }
       end
     end
 
@@ -92,7 +106,7 @@ describe Atlas::Plain::Parser do
           [Atlas::ValueToken.new('name'), Atlas::Lexer.word_tokens['NOTEQ'], Atlas::ValueToken.new('Jenkins')]
         end
 
-        it { is_expected.to eq 'NOTEQ(name, Jenkins)' }
+        it { is_expected.to eq 'NOT(EQ(name, Jenkins))' }
       end
 
       describe 'IN' do
@@ -110,7 +124,7 @@ describe Atlas::Plain::Parser do
         it { is_expected.to eq 'INCLUDES(color, [red, blue])' }
       end
 
-      describe 'IN' do
+      describe 'NOTIN' do
         let(:tokens) do
           [
             Atlas::ValueToken.new('color'),
@@ -122,7 +136,7 @@ describe Atlas::Plain::Parser do
           ]
         end
 
-        it { is_expected.to eq 'EXCLUDES(color, [red, blue])' }
+        it { is_expected.to eq 'NOT(INCLUDES(color, [red, blue]))' }
       end
 
       %w(LT LTE GT GTE).each do |function|
@@ -135,11 +149,14 @@ describe Atlas::Plain::Parser do
         end
       end
 
-      %w(EXISTS NOTEXISTS).each do |function|
-        describe function do
-          let(:tokens) { [Atlas::ValueToken.new('name'), Atlas::Lexer.word_tokens[function]] }
-          it { is_expected.to eq "#{function}(name)" }
-        end
+      describe 'EXISTS' do
+        let(:tokens) { [Atlas::ValueToken.new('name'), Atlas::Lexer.word_tokens['EXISTS']] }
+        it { is_expected.to eq 'EXISTS(name)' }
+      end
+
+      describe 'NOTEXISTS' do
+        let(:tokens) { [Atlas::ValueToken.new('name'), Atlas::Lexer.word_tokens['NOTEXISTS']] }
+        it { is_expected.to eq "NOT(EXISTS(name))" }
       end
     end
   end

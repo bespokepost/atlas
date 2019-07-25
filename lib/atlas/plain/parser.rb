@@ -16,12 +16,13 @@ module Atlas
         when Atlas::ValueToken then ValueNode.new(token.value)
         when Atlas::ClosingListToken then ListNode.new
         when Atlas::ExistsToken then ExistsNode.new
+        when Atlas::NotExistsToken then NotNode.new([ExistsNode.new])
         when Atlas::AndToken then AndNode.new
         when Atlas::OrToken then OrNode.new
         when Atlas::EqToken then EqNode.new
-        when Atlas::NotEqToken then NotEqNode.new
+        when Atlas::NotEqToken then NotNode.new([EqNode.new])
         when Atlas::InToken then IncludesNode.new
-        when Atlas::NotInToken then ExcludesNode.new
+        when Atlas::NotInToken then NotNode.new([IncludesNode.new])
         when Atlas::LessThanToken then LtNode.new
         when Atlas::LessThanOrEqualToToken then LteNode.new
         when Atlas::GreaterThanToken then GtNode.new
