@@ -17,7 +17,7 @@ module Atlas
     end
 
     def reset
-      @io.reopen('')
+      @io.reopen(+'')
     end
   end
 end
