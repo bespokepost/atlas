@@ -31,8 +31,10 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    rspec_junit_formatter (0.5.1)
+      rspec-core (>= 2, < 4, != 2.12.0)
     thread_safe (0.3.6)
-    tzinfo (1.2.5)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
 
 PLATFORMS
@@ -43,6 +45,7 @@ DEPENDENCIES
   bundler (~> 1.15)
   rake (~> 10.0)
   rspec
+  rspec_junit_formatter
 
 RUBY VERSION
    ruby 2.2.10p489
