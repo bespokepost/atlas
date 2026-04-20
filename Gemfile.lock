@@ -17,7 +17,7 @@ GEM
     i18n (1.5.1)
       concurrent-ruby (~> 1.0)
     minitest (5.11.3)
-    rake (10.4.2)
+    rake (13.0.1)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -31,6 +31,8 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    rspec_junit_formatter (0.4.1)
+      rspec-core (>= 2, < 4, != 2.12.0)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
@@ -41,8 +43,9 @@ PLATFORMS
 DEPENDENCIES
   atlas!
   bundler (~> 1.15)
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec
+  rspec_junit_formatter
 
 RUBY VERSION
    ruby 2.2.10p489
